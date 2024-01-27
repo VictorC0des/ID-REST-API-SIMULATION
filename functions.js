@@ -19,6 +19,9 @@ function sendResponse(code, body = null) {
         case 500:
             response.msg = "Internal Server Error";
             break;
+        case 204:
+            response.msg = "No content";
+            break;
         default:
             response.msg = "Unknown status code";
     }
@@ -97,6 +100,22 @@ function removeUserByIndex(index){
     }
 
 }
+
+function removeLastUser(){
+    try{
+        if (users.length === 0){
+            return sendResponse(204)
+        }
+
+        lastUser = users.pop();
+    
+        return sendResponse(200, {lastUser, users})
+    }catch(error)
+    {
+        return sendResponse(500, error);
+    }
+}
+
 
 
 
