@@ -74,7 +74,30 @@ function addUser(userName) {
     }
 
 }
-console.log(addUser("victor"));
+
+function removeUserByIndex(index){
+    try{
+        if (typeof index != "number"){
+            return sendResponse(400)
+        }
+        
+        userEliminated = users[index]
+        users.includes(userEliminated);
+
+        if(users.includes(userEliminated)){
+            users.splice(index, 1);
+            return sendResponse(200, {userEliminated, users})
+        }
+        
+        return sendResponse(404)
+        
+        
+    }catch(error){
+        return sendResponse(500, error)
+    }
+
+}
+
 
 
 
