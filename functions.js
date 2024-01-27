@@ -116,8 +116,21 @@ function removeLastUser(){
     }
 }
 
+function removeFirstUser(){
+    try{
+        if (users.length === 0){
+            return sendResponse(204)
+        }
 
-
+        firstUser = users.shift();
+    
+        return sendResponse(200, {firstUser, users})
+    }catch(error)
+    {
+        return sendResponse(500, error);
+    }
+    
+}
 
 
 
