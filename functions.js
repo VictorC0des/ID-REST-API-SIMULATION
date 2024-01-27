@@ -28,12 +28,27 @@ function sendResponse(code, body = null) {
   return response;
 }
 
+function getUser(userName) {
+  try {
 
+    // Early return guard clauses
+    if (!userName) {
+      return sendResponse(400);
+    }
 
+    const userIndex = users.indexOf(userName);
 
+    if (userIndex >= 0) {
+      const user = users.at(userIndex);
 
+      return sendResponse(200, user);
+    }
 
-                                                                         
+    return sendResponse(404);
+  } catch (error) {
+    return sendResponse(500, error);
+  }
+};
 
 
 
