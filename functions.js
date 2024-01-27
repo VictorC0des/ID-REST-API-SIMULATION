@@ -60,6 +60,21 @@ function getUsers() {
     }
 }
 
+function addUser(userName) {
+    try{
+        if(!userName || typeof userName !="string"){
+            return sendResponse(400)
+        }
+        users.push(userName);
+    
+     
+        return sendResponse(200, {userName, users} )    
+    }catch(error){
+        return sendResponse(500, error);
+    }
+
+}
+console.log(addUser("victor"));
 
 
 
