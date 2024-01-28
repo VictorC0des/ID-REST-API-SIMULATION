@@ -132,6 +132,28 @@ function removeFirstUser(){
     
 }
 
+function updateUserByIndex(index, userName){
+    userUpdated = users[index]
+
+    try{
+
+        if (!userName || typeof userName != "string") {
+            return sendResponse(400)
+        }
+        if (users.includes(userUpdated) ){
+            users.splice(index, 1, userName);
+            return sendResponse(200, {userUpdated, users})   
+        }
+      
+        return sendResponse(404)
+
+    }catch(error){
+        return sendResponse(500, error)
+    }
+}
+
+
+
 
 
 
