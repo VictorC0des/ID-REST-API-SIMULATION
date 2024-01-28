@@ -60,11 +60,8 @@ function getUsers() {
             return sendResponse(204)
         }
 
-        if (users.length > 0) {
-            return sendResponse(200, users);
-        } else {
-            return sendResponse(404);
-        }
+        return sendResponse(200, users);
+       
     } catch (error) {
         return sendResponse(500, error);
     }
@@ -161,6 +158,19 @@ function updateUserByIndex(index, userName){
       
         return sendResponse(404)
 
+    }catch(error){
+        return sendResponse(500, error)
+    }
+}
+
+function getUserSize(){
+    try{
+        if (users.length === 0){
+            return sendResponse(204)
+        }
+        numberOfUsers = users.length;
+        return sendResponse(200, {numberOfUsers});
+    
     }catch(error){
         return sendResponse(500, error)
     }
