@@ -32,6 +32,9 @@ function sendResponse(code, body = null) {
 function getUser(userName) {
     try {
         // Early return guard clauses
+        if (users.length === 0){
+            return sendResponse(204)
+        }
         if (!userName) {
             return sendResponse(400);
         }
@@ -53,6 +56,10 @@ function getUser(userName) {
 
 function getUsers() {
     try {
+        if (users.length === 0){
+            return sendResponse(204)
+        }
+
         if (users.length > 0) {
             return sendResponse(200, users);
         } else {
@@ -80,6 +87,10 @@ function addUser(userName) {
 
 function removeUserByIndex(index){
     try{
+        if (users.length === 0){
+            return sendResponse(204)
+        }
+
         if (typeof index != "number"){
             return sendResponse(400)
         }
@@ -136,6 +147,9 @@ function updateUserByIndex(index, userName){
     userUpdated = users[index]
 
     try{
+        if (users.length === 0){
+            return sendResponse(204)
+        }
 
         if (!userName || typeof userName != "string") {
             return sendResponse(400)
@@ -151,9 +165,3 @@ function updateUserByIndex(index, userName){
         return sendResponse(500, error)
     }
 }
-
-
-
-
-
-
