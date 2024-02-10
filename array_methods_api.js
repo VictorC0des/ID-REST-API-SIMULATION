@@ -213,11 +213,11 @@ function sendResponse(code, body = null) {
     return response;
 }
 
-function getBook(name){
+function getBook(nameOrISBN){
     
    try{
     
-    const book = books.find(book => book.title.toLowerCase() === name.toLowerCase());
+    const book = books.find(book => book.title.toLowerCase() === nameOrISBN.toLowerCase() || book.ISBN === nameOrISBN);
     if(books.length === 0){
         return sendResponse(204);
     }   
@@ -225,7 +225,7 @@ function getBook(name){
         return sendResponse(404);
     }
 
-    if(!book){
+    if(!nameOrISBN){
         return sendResponse(400);
     }
     return sendResponse(200, book);
@@ -234,6 +234,7 @@ function getBook(name){
        return sendResponse(500, error);
    }
 }
+console.log(getBook(true));
 
 function getBooks(){
     try{
@@ -272,3 +273,4 @@ function addBook(tittle, ISBN, year, genre, author, stock, publisher){
         return sendResponse(500, error);
     }
 }
+
