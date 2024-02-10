@@ -231,3 +231,18 @@ function getBook(name){
        return sendResponse(500, error);
    }
 }
+
+function getBooks(){
+    try{
+        if (!books){
+            return sendResponse(400);
+        }
+        if(books.length === 0){
+            return sendResponse(204);
+        }
+        return sendResponse(200, books);
+    }catch(error){
+        return sendResponse(500, error);
+    }
+}
+
