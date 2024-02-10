@@ -265,7 +265,7 @@ function addBook(tittle, ISBN, year, genre, author, stock, publisher){
             return sendResponse(400);
         }
         books.push(newBook);
-        return sendResponse(200, JSON.stringify({newBook, books}));//In this line this was the only way to return the books array, since if I return the books without this method, it only shows "OBJECT" 
+        return sendResponse(201, JSON.stringify({newBook, books}));//In this line this was the only way to return the books array, since if I return the books without this method, it only shows "OBJECT" 
 
 
     }catch(error){
