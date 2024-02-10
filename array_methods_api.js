@@ -364,3 +364,26 @@ function genreFullAvailability(genre){
     }
 
 }
+
+function genrePartialAvailability(genre){
+    try{
+        if (!genre){
+            return sendResponse(400)
+        }
+        if(books.length === 0){
+            return sendResponse(204)
+        }
+       const booksOfGenre = books.filter((book)=>book.genre.toLowerCase() === genre.toLowerCase())
+
+       if(booksOfGenre.length === 0){
+        return sendResponse(404)
+       }
+       const availability = booksOfGenre.some((book) => book.stock > 0)
+       let message = "At least one of books of genre "+genre.toLowerCase()+" have stock: ";
+       return sendResponse(200, { [message]: availability });
+        
+    }catch(error){
+        return sendResponse(500, error)
+    }
+}
+
