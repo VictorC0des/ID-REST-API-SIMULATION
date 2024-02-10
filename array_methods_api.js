@@ -294,7 +294,7 @@ function filterBy(filter, value){
         if(books.length === 0){
             return sendResponse(204);
         }
-        const filteredBooks = books.filter((book) => book[filter] === value);
+        const filteredBooks = books.filter((book) => book[filter].toLowerCase === value.toLowerCase);
         if(filteredBooks.length === 0){
             return sendResponse(404);
         }
@@ -303,6 +303,7 @@ function filterBy(filter, value){
         return sendResponse(500, error);
     }
 }
+
 
 function listBooks(){
     try{
@@ -387,3 +388,30 @@ function genrePartialAvailability(genre){
     }
 }
 
+function getCountBy(property, value) {
+    try {
+        if (!property || !value) {
+            return sendResponse(400);
+        }
+        property = property.toLowerCase();
+        value = value.toLowerCase();
+        if (property !== "genre" && property !== "author" && property !== "publisher") {
+            return sendResponse(400);
+        }
+        if (books.length === 0) {
+            return sendResponse(204);
+        }
+        const count = books.reduce((acc, book) => {
+            if (book[property].toLowerCase() === value) {
+                acc++;
+            }
+            return acc;
+        }, 0);
+        if (count === 0) {
+            return sendResponse(404);
+        }
+        return sendResponse(200, { [property]: { [value]: count } });
+    } catch (error) {
+        return sendResponse(500, error);
+    }
+}
