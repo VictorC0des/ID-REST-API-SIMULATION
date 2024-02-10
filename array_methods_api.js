@@ -320,4 +320,24 @@ function listBooks(){
         return sendResponse(500, error);
     }
 }
-console.log(listBooks());
+
+function getBooksByYear(year){
+    try{
+        if (!year){
+            return sendResponse(400)
+        }
+        if(books.length === 0){
+            return sendResponse(204)
+        }
+        const booksYear = books.filter((books) => books.year === year)
+        
+        if(booksYear.length === 0){
+            return sendResponse(404)
+        }
+        return sendResponse(200, booksYear)
+        
+
+    }catch(error){
+        return sendResponse(500, error)
+    }
+}
