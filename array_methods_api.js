@@ -246,3 +246,27 @@ function getBooks(){
     }
 }
 
+function addBook(tittle, ISBN, year, genre, author, stock, publisher){
+    try{
+        const newBook = {
+            title: tittle,
+            ISBN: ISBN,
+            year: year,
+            genre: genre,
+            author: author,
+            stock: stock,
+            publisher: publisher
+        };
+        
+        if(!newBook){
+            return sendResponse(400);
+        }
+        books.push(newBook);
+        return sendResponse(200, JSON.stringify({newBook, books}));//In this line this was the only way to return the books array, since if I return the book without this method, it only shows "OBJECT" 
+
+
+    }catch(error){
+        return sendResponse(500, error);
+    }
+}
+console.log(addBook("The Lean Startup", "9780307887894", 2011, "Business", "Eric Ries", 9, "Crown Business"));
