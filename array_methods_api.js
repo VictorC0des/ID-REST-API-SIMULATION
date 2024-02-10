@@ -234,7 +234,7 @@ function getBook(nameOrISBN){
        return sendResponse(500, error);
    }
 }
-console.log(getBook(true));
+
 
 function getBooks(){
     try{
@@ -274,3 +274,29 @@ function addBook(tittle, ISBN, year, genre, author, stock, publisher){
     }
 }
 
+function removeBookByTitleOrISBN(nameOrISBN){
+    try{
+        const removedBook = books.find(book => book.title.toLowerCase() === nameOrISBN.toLowerCase() || book.ISBN === nameOrISBN);
+        if(books.length === 0){
+            return sendResponse(204);
+        }
+
+        if(removedBook == undefined){         
+            return sendResponse(404);
+        }
+
+        if(!nameOrISBN){
+            return sendResponse(400);
+        }
+        books.splice(books.indexOf(removedBook), 1);
+        return sendResponse(200, JSON.stringify({removedBook, books}));
+
+
+        
+    }catch(error){
+        return sendResponse(500, error);
+    }
+
+}
+
+console.log(removeBookByTitleOrISBN("harRy potter and the philosopher's stone"));
