@@ -281,7 +281,7 @@ function removeBookByTitleOrISBN(nameOrISBN){
             return sendResponse(204);
         }
 
-        if(removedBook == undefined){         
+        if(removedBook === undefined){         
             return sendResponse(404);
         }
 
@@ -289,14 +289,33 @@ function removeBookByTitleOrISBN(nameOrISBN){
             return sendResponse(400);
         }
         books.splice(books.indexOf(removedBook), 1);
-        return sendResponse(200, JSON.stringify({removedBook, books}));
+        return sendResponse(200, JSON.stringify({removedBook, books}));//In this line this was the only way to return the books array, since if I return the books without this method, it only shows "OBJECT" 
 
-
-        
     }catch(error){
         return sendResponse(500, error);
     }
 
 }
 
-console.log(removeBookByTitleOrISBN("harRy potter and the philosopher's stone"));
+function filterBy(filter, value){
+    try{
+        if(!filter || !value){
+            return sendResponse(400);
+        }
+        filter = filter.toLowerCase();
+        if(filter !== "genre" && filter !== "author" && filter !== "publisher"){
+            return sendResponse(400);
+        }
+        if(books.length === 0){
+            return sendResponse(204);
+        }
+        const filteredBooks = books.filter((book) => book[filter] === value);
+        if(filteredBooks.length === 0){
+            return sendResponse(404);
+        }
+        return sendResponse(200, filteredBooks);
+    }catch(error){
+        return sendResponse(500, error);
+    }
+}
+console.log(filterBy(12));
