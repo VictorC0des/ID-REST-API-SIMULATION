@@ -250,10 +250,13 @@ function getBooks(){
     }
 }
 
-function addBook(tittle, ISBN, year, genre, author, stock, publisher){
+function addBook(title, ISBN, year, genre, author, stock, publisher){
     try{
+        if(!title || !ISBN || !year || !genre || !author || !stock || !publisher){
+            return sendResponse(400);
+        }
         const newBook = {
-            title: tittle,
+            title: title,
             ISBN: ISBN,
             year: year,
             genre: genre,
@@ -261,14 +264,8 @@ function addBook(tittle, ISBN, year, genre, author, stock, publisher){
             stock: stock,
             publisher: publisher
         };
-        
-        if(!newBook){
-            return sendResponse(400);
-        }
         books.push(newBook);
-        return sendResponse(201, JSON.stringify({newBook, books}));//In this line this was the only way to return the books array, since if I return the books without this method, it only shows "OBJECT" 
-
-
+        return sendResponse(201, JSON.stringify({newBook, books}));
     }catch(error){
         return sendResponse(500, error);
     }
@@ -276,25 +273,21 @@ function addBook(tittle, ISBN, year, genre, author, stock, publisher){
 
 function removeBookByTitleOrISBN(nameOrISBN){
     try{
-        const removedBook = books.find(book => book.title.toLowerCase() === nameOrISBN.toLowerCase() || book.ISBN === nameOrISBN);
-        if(books.length === 0){
-            return sendResponse(204);
-        }
-
-        if(removedBook === undefined){         
-            return sendResponse(404);
-        }
-
         if(!nameOrISBN){
             return sendResponse(400);
         }
+        if(books.length === 0){
+            return sendResponse(204);
+        }
+        const removedBook = books.find(book => book.title.toLowerCase() === nameOrISBN.toLowerCase() || book.ISBN === nameOrISBN);
+        if(removedBook === undefined){         
+            return sendResponse(404);
+        }
         books.splice(books.indexOf(removedBook), 1);
-        return sendResponse(200, JSON.stringify({removedBook, books}));//In this line this was the only way to return the books array, since if I return the books without this method, it only shows "OBJECT" 
-
+        return sendResponse(200, JSON.stringify({removedBook, books}));
     }catch(error){
         return sendResponse(500, error);
     }
-
 }
 
 function filterBy(filter, value){
@@ -318,4 +311,3 @@ function filterBy(filter, value){
         return sendResponse(500, error);
     }
 }
-console.log(filterBy(12));
