@@ -214,33 +214,25 @@ function sendResponse(code, body = null) {
 }
 
 function getBook(nameOrISBN){
-    
-   try{
-    
-    const book = books.find(book => book.title.toLowerCase() === nameOrISBN.toLowerCase() || book.ISBN === nameOrISBN);
-    if(books.length === 0){
-        return sendResponse(204);
-    }   
-    if(book == undefined){
-        return sendResponse(404);
+    try{
+        if(!nameOrISBN){
+            return sendResponse(400);
+        }
+        if(books.length === 0){
+            return sendResponse(204);
+        }
+        const book = books.find(book => book.title.toLowerCase() === nameOrISBN.toLowerCase() || book.ISBN === nameOrISBN);
+        if(book === undefined){
+            return sendResponse(404);
+        }
+        return sendResponse(200, book);
+    }catch(error){
+        return sendResponse(500, error);
     }
-
-    if(!nameOrISBN){
-        return sendResponse(400);
-    }
-    return sendResponse(200, book);
-   
-   }catch(error){
-       return sendResponse(500, error);
-   }
 }
-
 
 function getBooks(){
     try{
-        if (!books){
-            return sendResponse(400);
-        }
         if(books.length === 0){
             return sendResponse(204);
         }
@@ -311,3 +303,21 @@ function filterBy(filter, value){
         return sendResponse(500, error);
     }
 }
+
+function listBooks(){
+    try{
+        if(books.length === 0){
+            return sendResponse(204);
+        }
+        const booksList = books.map(book =>({
+            tittle: book.title,
+            author: book.author,
+            year: book.year
+        }))
+        return sendResponse(200, booksList);
+       
+    }catch(error){
+        return sendResponse(500, error);
+    }
+}
+console.log(listBooks());
