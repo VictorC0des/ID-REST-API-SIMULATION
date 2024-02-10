@@ -341,3 +341,26 @@ function getBooksByYear(year){
         return sendResponse(500, error)
     }
 }
+
+function genreFullAvailability(genre){
+    try{
+        if (!genre){
+            return sendResponse(400)
+        }
+        if(books.length === 0){
+            return sendResponse(204)
+        }
+       const booksOfGenre = books.filter((book)=>book.genre.toLowerCase() === genre.toLowerCase())
+
+       if(booksOfGenre.length === 0){
+        return sendResponse(404)
+       }
+       const availability = booksOfGenre.every((book) => book.stock > 0)
+       let message = "All books of genre "+genre.toLowerCase()+" have stock: ";
+       return sendResponse(200, { [message]: availability });
+        
+    }catch(error){
+        return sendResponse(500, error)
+    }
+
+}
