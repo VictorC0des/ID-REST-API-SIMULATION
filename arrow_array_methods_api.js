@@ -293,7 +293,7 @@ const filterBy = (filter, value) => {
         if(books.length === 0){
             return sendResponse(204);
         }
-        const filteredBooks = books.filter((book) => book[filter].toLowerCase === value.toLowerCase);
+        const filteredBooks = books.filter((book) => book[filter].toLowerCase() === value.toLowerCase());
         if(filteredBooks.length === 0){
             return sendResponse(404);
         }
